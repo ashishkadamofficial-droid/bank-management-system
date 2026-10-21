@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+{% block title %}Money Transfer | BankSphere{% endblock %}
+{% block heading %}Money Transfer{% endblock %}
+
+{% block content %}
+<div class="page-intro">
+    <h1>Transfer Money</h1>
+    <p>Transfer demo funds between two registered accounts.</p>
+</div>
+
+<form method="POST" class="form-card" id="transfer-form">
+    <div class="transfer-visual">
+        <div class="transfer-circle">₹</div>
+        <h3>Account-to-Account Transfer</h3>
+        <p>Both accounts must exist in the demo database.</p>
+    </div>
+
+    <div class="form-grid">
+        <label class="field full">
+            From Account (Sender)
+            <input name="from_account" type="text" inputmode="numeric"
+                   pattern="[0-9]{12}" maxlength="12"
+                   placeholder="12-digit sender account number" required>
+        </label>
+
+        <div class="transfer-arrow">↓</div>
+
+        <label class="field full">
+            To Account (Receiver)
+            <input name="to_account" type="text" inputmode="numeric"
+                   pattern="[0-9]{12}" maxlength="12"
+                   placeholder="12-digit receiver account number" required>
+        </label>
+
+        <label class="field full">
+            Transfer Amount (₹)
+            <input name="amount" type="number" min="0.01"
+                   max="10000000" step="0.01"
+                   placeholder="Enter amount" required>
+        </label>
+    </div>
+
+    <div class="notice">
+        <strong>Before you transfer</strong>
+        <p>Verify both account numbers. This demo updates the sender and
+        receiver balances immediately and records the transaction.</p>
+    </div>
+
+    <div class="form-footer">
+        <a href="{{ url_for('index') }}" class="btn secondary">Cancel</a>
+        <button class="btn primary" type="submit">Confirm Transfer →</button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BankSphere{% endblock %}</title>
+    <!-- <link rel="stylesheet" -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-icon">B</span>
+            <span>BankSphere<small>MANAGEMENT SYSTEM</small></span>
+        </a>
+
+        <p class="nav-label">WORKSPACE</p>
+        <nav class="navigation">
+            <a href="{{ url_for('index') }}">▦ <span>Dashboard</span></a>
+            <a href="{{ url_for('create_account') }}">＋ <span>Open Account</span></a>
+            <a href="{{ url_for('customers') }}">♙ <span>Customers</span></a>
+            <a href="{{ url_for('apply_loan') }}">↗ <span>Loan Applications</span></a>
+            <a href="{{ url_for('transfer') }}">⇄ <span>Money Transfer</span></a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="security-note">
+                <span>●</span>
+                <div><strong>Demo Environment</strong>
+                    <small>Educational project only</small>
+                </div>
+            </div>
+            <small>BankSphere v1.0</small>
+        </div>
+    </aside>
+
+    <main class="main-area">
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">BANK MANAGEMENT</span>
+                <h2>{% block heading %}Dashboard{% endblock %}</h2>
+            </div>
+            <div class="profile">
+                <div class="avatar">A</div>
+                <div><strong>Administrator</strong>
+                    <small>Project workspace</small></div>
+            </div>
+        </header>
+
+        <section class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}" role="status">
+                        <span>{{ message }}</span>
+                        <button type="button" class="alert-close"
+                                aria-label="Dismiss notification">×</button>
+                    </div>
+                {% endfor %}
+            {% endwith %}
+
+            {% if page_error %}
+                <div class="alert error">{{ page_error }}</div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+            <footer>© 2026 BankSphere · Academic project</footer>
+        </section>
+    </main>
+</div>
+</body>
+</html>

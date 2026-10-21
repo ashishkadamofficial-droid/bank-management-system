@@ -1,0 +1,102 @@
+
+{% extends "base.html" %}
+{% block title %}Customer Details | BankSphere{% endblock %}
+{% block heading %}Customer Details{% endblock %}
+
+{% block content %}
+<a class="text-link" href="{{ url_for('customers') }}">← Back to Customers</a>
+
+<div class="customer-profile-card">
+    <div class="avatar large">{{ customer.name[0]|upper }}</div>
+    <div class="profile-main">
+        <h1>{{ customer.name }}</h1>
+        <p>{{ customer.account_type }} Account · {{ customer.account_number }}</p>
+        <span class="status-pill success">Active in Demo</span>
+    </div>
+    <div class="balance-block">
+        <small>Available Balance</small>
+        <h2>{{ customer.balance|money }}</h2>
+    </div>
+</div>
+
+<div class="details-grid">
+    <article class="detail-card">
+        <small>Account Number</small>
+        <strong>{{ customer.account_number }}</strong>
+    </article>
+    <article class="detail-card">
+        <small>Mobile Number</small>
+        <strong>{{ customer.mobile }}</strong>
+    </article>
+    <article class="detail-card">
+        <small>Age</small>
+        <strong>{{ customer.age }} years</strong>
+    </article>
+    <article class="detail-card">
+        <small>Gender</small>
+        <strong>{{ customer.gender }}</strong>
+    </article>
+    <article class="detail-card">
+        <small>Date of Birth</small>
+        <strong>{{ customer.dob }}</strong>
+    </article>
+    <article class="detail-card">
+        <small>Account Type</small>
+        <strong>{{ customer.account_type }}</strong>
+    </article>
+</div>
+
+<div class="section-heading">
+    <div><h2>Quick Actions</h2><p>Continue with this account</p></div>
+</div>
+<div class="button-row">
+    <a class="btn primary" href="{{ url_for('transfer') }}">⇄ Transfer Money</a>
+    <a class="btn secondary"
+       href="{{ url_for('apply_loan') }}">Apply for Loan</a>
+</div>
+
+<div class="section-heading">
+    <div><h2>Loan Applications</h2><p>Applications associated with this account</p></div>
+</div>
+<div class="table-card table-scroll">
+    <table>
+        <thead><tr><th>Loan Type</th><th>Amount</th>
+            <th>Duration</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for loan in loans %}
+            <tr>
+                <td>{{ loan.loan_type }}</td>
+                <td>{{ loan.amount|money }}</td>
+                <td>{{ loan.years }} years</td>
+                <td><span class="status-pill">{{ loan.status }}</span></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4" class="empty">No loan applications yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="section-heading">
+    <div><h2>Transaction History</h2><p>Latest transactions for this account</p></div>
+</div>
+<div class="table-card table-scroll">
+    <table>
+        <thead><tr><th>Type</th><th>From</th><th>To</th>
+            <th>Amount</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for tx in transactions %}
+            <tr>
+                <td>{{ tx.transaction_type }}</td>
+                <td>{{ tx.from_account or '—' }}</td>
+                <td>{{ tx.to_account or '—' }}</td>
+                <td class="amount">{{ tx.amount|money }}</td>
+                <td>{{ tx.created_at|datetime_format }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="empty">No transactions found.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+
+{% extends "base.html" %}
+{% block title %}Open Account | BankSphere{% endblock %}
+{% block heading %}Open New Account{% endblock %}
+
+{% block content %}
+<div class="page-intro">
+    <h1>Create a Bank Account</h1>
+    <p>Enter the customer details to register a new account.</p>
+</div>
+
+<form method="POST" class="form-card" id="account-form">
+    <div class="form-section-title">
+        <span class="step-number">01</span>
+        <div><h3>Personal Information</h3>
+            <p>Customer's basic details</p></div>
+    </div>
+
+    <div class="form-grid">
+        <label class="field full">
+            Full Name
+            <input name="name" type="text" maxlength="100"
+                   placeholder="Enter full name" required>
+        </label>
+
+        <label class="field">
+            Gender
+            <select name="gender" required>
+                <option value="">Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
+        </label>
+
+        <label class="field">
+            Age
+            <input name="age" type="number" min="18" max="120"
+                   placeholder="Age in years" required>
+        </label>
+
+        <label class="field">
+            Date of Birth
+            <input name="dob" type="date" required>
+        </label>
+
+        <label class="field">
+            Mobile Number
+            <input name="mobile" type="tel" inputmode="numeric"
+                   pattern="[0-9]{10}" maxlength="10"
+                   placeholder="10-digit mobile number" required>
+        </label>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="form-section-title">
+        <span class="step-number">02</span>
+        <div><h3>Account Information</h3>
+            <p>Select an account type and initial deposit</p></div>
+    </div>
+
+    <div class="account-options">
+        <label class="account-option">
+            <input type="radio" name="account_type" value="Saving"
+                   data-minimum="1000" required>
+            <span class="option-content">
+                <span class="option-icon green">₹</span>
+                <strong>Savings Account</strong>
+                <small>Minimum deposit: ₹1,000</small>
+            </span>
+        </label>
+
+        <label class="account-option">
+            <input type="radio" name="account_type" value="Current"
+                   data-minimum="5000" required>
+            <span class="option-content">
+                <span class="option-icon blue">▤</span>
+                <strong>Current Account</strong>
+                <small>Minimum deposit: ₹5,000</small>
+            </span>
+        </label>
+    </div>
+
+    <label class="field deposit-field">
+        Initial Deposit (₹)
+        <input name="balance" type="number" min="1000"
+               step="0.01" placeholder="Enter deposit amount"
+               required>
+        <small id="minimum-hint">Select an account type to see its minimum.</small>
+    </label>
+
+    <div class="form-footer">
+        <a href="{{ url_for('index') }}" class="btn secondary">Cancel</a>
+        <button type="submit" class="btn primary">Create Account →</button>
+    </div>
+</form>
+{% endblock %}

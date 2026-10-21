@@ -1,0 +1,82 @@
+
+{% extends "base.html" %}
+{% block title %}Apply for Loan | BankSphere{% endblock %}
+{% block heading %}Loan Applications{% endblock %}
+
+{% block content %}
+<div class="page-intro">
+    <h1>Loan Application</h1>
+    <p>Enter account and financial details to calculate a demo eligibility estimate.</p>
+</div>
+
+<form method="POST" class="form-card">
+    <div class="form-section-title">
+        <span class="step-number">01</span>
+        <div><h3>Account Information</h3>
+            <p>Identify the account holder</p></div>
+    </div>
+
+    <div class="form-grid">
+        <label class="field full">
+            Account Number
+            <input name="account_number" type="text"
+                   inputmode="numeric" pattern="[0-9]{12}"
+                   maxlength="12" placeholder="Enter 12-digit account number"
+                   required>
+        </label>
+
+        <label class="field full">
+            Loan Type
+            <select name="loan_type" required>
+                <option value="">Select loan type</option>
+                {% for loan_type in loan_types %}
+                    <option value="{{ loan_type }}">{{ loan_type }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="form-section-title">
+        <span class="step-number">02</span>
+        <div><h3>Loan Requirements</h3>
+            <p>Provide the amount, income and repayment period</p></div>
+    </div>
+
+    <div class="form-grid">
+        <label class="field">
+            Loan Amount (₹)
+            <input name="amount" type="number" min="1" max="100000000"
+                   step="0.01" placeholder="e.g. 500000" required>
+        </label>
+        <label class="field">
+            Annual Income (₹)
+            <input name="annual_income" type="number" min="1"
+                   max="100000000" step="0.01"
+                   placeholder="e.g. 600000" required>
+        </label>
+        <label class="field full">
+            Repayment Period
+            <select name="years" required>
+                <option value="">Select duration</option>
+                {% for year in range(1, 31) %}
+                    <option value="{{ year }}">{{ year }} year{% if year != 1 %}s{% endif %}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+
+    <div class="notice">
+        <strong>Demo calculation only</strong>
+        <p>Eligibility is estimated using monthly principal divided by the
+        repayment months and compared with 50% of monthly income.
+        Interest, credit history and actual lender rules are not included.</p>
+    </div>
+
+    <div class="form-footer">
+        <a href="{{ url_for('index') }}" class="btn secondary">Cancel</a>
+        <button class="btn primary" type="submit">Assess Eligibility →</button>
+    </div>
+</form>
+{% endblock %}

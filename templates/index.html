@@ -1,0 +1,106 @@
+
+{% extends "base.html" %}
+{% block title %}Dashboard | BankSphere{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="welcome-row">
+    <div>
+        <h1>Welcome back, Ashish 👋</h1>
+        <p>Here's what's happening with your bank today.</p>
+    </div>
+    <a class="btn primary" href="{{ url_for('create_account') }}">
+        + Create Account
+    </a>
+</div>
+
+<div class="stats-grid">
+    <article class="stat-card">
+        <div class="stat-icon blue">♙</div>
+        <p>Total Accounts</p>
+        <h2>{{ stats.accounts }}</h2>
+        <small>Registered accounts</small>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon green">₹</div>
+        <p>Total Deposits</p>
+        <h2>{{ stats.balance|money }}</h2>
+        <small>Combined account balances</small>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon purple">▤</div>
+        <p>Loan Applications</p>
+        <h2>{{ stats.loans }}</h2>
+        <small>Applications recorded</small>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon orange">◎</div>
+        <p>Customers</p>
+        <h2>{{ stats.customers }}</h2>
+        <small>Unique customer accounts</small>
+    </article>
+</div>
+
+<div class="section-heading">
+    <div><h2>Quick Actions</h2>
+        <p>Common banking operations</p></div>
+</div>
+
+<div class="actions-grid">
+    <a class="action-card" href="{{ url_for('create_account') }}">
+        <span class="action-icon blue">＋</span>
+        <strong>Open Account</strong>
+        <small>Register a new customer</small>
+        <span class="arrow">↗</span>
+    </a>
+    <a class="action-card" href="{{ url_for('apply_loan') }}">
+        <span class="action-icon purple">↗</span>
+        <strong>Apply for Loan</strong>
+        <small>Check loan eligibility</small>
+        <span class="arrow">↗</span>
+    </a>
+    <a class="action-card" href="{{ url_for('transfer') }}">
+        <span class="action-icon green">⇄</span>
+        <strong>Transfer Money</strong>
+        <small>Move funds between accounts</small>
+        <span class="arrow">↗</span>
+    </a>
+    <a class="action-card" href="{{ url_for('customers') }}">
+        <span class="action-icon orange">♙</span>
+        <strong>View Customers</strong>
+        <small>Search registered customers</small>
+        <span class="arrow">↗</span>
+    </a>
+</div>
+
+<div class="section-heading">
+    <div><h2>Recent Transactions</h2>
+        <p>Latest transfers recorded in the system</p></div>
+</div>
+
+<div class="table-card">
+    <div class="table-scroll">
+        <table>
+            <thead><tr>
+                <th>Transaction</th><th>From Account</th>
+                <th>To Account</th><th>Amount</th><th>Date</th>
+            </tr></thead>
+            <tbody>
+            {% for tx in recent %}
+                <tr>
+                    <td><span class="status-pill success">{{ tx.transaction_type }}</span></td>
+                    <td>{{ tx.from_account }}</td>
+                    <td>{{ tx.to_account }}</td>
+                    <td class="amount">{{ tx.amount|money }}</td>
+                    <td>{{ tx.created_at|datetime_format }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5" class="empty">
+                    No transactions yet. Make your first demo transfer!
+                </td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
